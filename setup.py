@@ -37,6 +37,7 @@ def statevector(qc):
 def simulate(qc):
   try:
     a = sim.run(qc).result().get_counts()
+    a = dict(sorted(a.items()))
     print(a)
     plot_histogram(a).show()
     return a
@@ -45,9 +46,21 @@ def simulate(qc):
     return
 
 # circuit setup
-def h_it_all(qc):
-  for i in range(qc.num_qubits):
-    qc.h(i)
+def h_it_all(qc,reg='all'):
+  if reg == 'all':
+    for i in range(qc.num_qubits):
+      qc.h(i)
+  else:
+    for i in range(reg.size):
+      qc.h(reg[i])
+
+def circuitmeasure(qc,cbits,reg='all'):
+  if reg == 'all':
+    for i in range(qc.num_qubits):
+      qc.measure(i,cbits[i])
+  else:
+    for i in range(reg.size):
+      qc.measure(reg[i],cbits[i])
 
 
 
