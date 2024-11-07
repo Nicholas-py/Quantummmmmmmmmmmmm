@@ -1,4 +1,4 @@
-from setup import *
+from setup import h_it_all, circuitmeasure, simulate,draw,statevector
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
 from math import sqrt
 def getgroverinput():
@@ -72,7 +72,7 @@ def diffuser(qc,x):
     qc.x(x[i])
   h_it_all(qc,x)
 
-def grover(statements):
+def grover(statements,cycles = 'cheese'):
   qubit = max2(statements)+1
   x = QuantumRegister(qubit,name='x')
   c = QuantumRegister(len(statements),name='c')  
@@ -82,9 +82,37 @@ def grover(statements):
   qc.x(o[0])
   qc.h(o[0])
   h_it_all(qc,x)
-  for i in range(max(1,int(sqrt(2**x.size))-2)):
+  if cycles == 'cheese':
+    cycles = max(1,int(sqrt(2**x.size))-2)
+  for i in range(cycles):
     applyoracle(qc,statements)
     diffuser(qc,x)
   circuitmeasure(qc,op,x)
-  simulate(qc)
   return qc
+
+
+def groverinterface():
+  print('Running grover\'s algorithm')
+  qc = grover(getgroverinput())
+  while True:
+    varnm = input('Enter commands here: ')
+    if varnm == '':
+      print('No command')
+    elif varnm[0].lower() == 'd':
+      draw(qc)
+    elif varnm[0].lower() == 'r':
+      print('Restarting')
+      qc = grover(getgroverinput())
+    elif varnm[0].lower() == 's':
+      simulate(qc)
+    elif varnm[0].lower() == 'c':
+      break
+    elif 's' in varnm:
+      simulate(qc)
+    elif 'r' in varnm:
+      print('Restarting')
+      qc = grover(getgroverinput())
+    elif 'd' in varnm:
+      draw(qc)
+    elif 'c' in varnm:
+      break
