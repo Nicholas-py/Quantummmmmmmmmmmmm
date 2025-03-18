@@ -1,7 +1,6 @@
 from setup import draw, simulate
 from dj import djinterface
 import qrand
-#print('Your number is',qrand.realqrand())
 
 from QFT import QFT
 from QPE import QPE
