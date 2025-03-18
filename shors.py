@@ -7,8 +7,8 @@ from QFT import QFT, invQFT
 from math import pi
 from fractions import Fraction
 #from qiskit.algorithms import Shor
-from qiskit import IBMQ
-from qiskit.utils import QuantumInstance
+#from qiskit import IBMQ
+#from qiskit.utils import QuantumInstance
 
 def fastexponentmodN(num,pow,N):
   if pow == 1:
@@ -111,18 +111,19 @@ def multaxmodN(a,x,N):
 
   draw(qc)
   return qc.to_gate()
-cs = QuantumRegister(2)
-mc = QuantumRegister(4)
-c = QuantumRegister(1)
-cl = ClassicalRegister(7)  
-qc = QuantumCircuit(cs,mc,c,cl)
-qc.x([0,1,2,4])
-QFT(qc,reg=mc,swaps=True)
-qc.append(faddamodn(4,7),range(7))
-invQFT(qc,reg=mc,swaps=True)
-circuitmeasure(qc,cl,reg=mc)
-draw(qc)
-print('lesim',simulate(qc))
+def test():
+  cs = QuantumRegister(2)
+  mc = QuantumRegister(4)
+  c = QuantumRegister(1)
+  cl = ClassicalRegister(7)  
+  qc = QuantumCircuit(cs,mc,c,cl)
+  qc.x([0,1,2,4])
+  QFT(qc,reg=mc,swaps=True)
+  qc.append(faddamodn(4,7),range(7))
+  invQFT(qc,reg=mc,swaps=True)
+  circuitmeasure(qc,cl,reg=mc)
+  draw(qc)
+  print('lesim',simulate(qc))
 def generalax(a,power,N):
   qc = QuantumCircuit(10)
   for i in range(power):
@@ -164,7 +165,7 @@ def cmodexpQgate(a,power,N):
         qc.cx(0,1)
     else:
       print('Those numbers currently not supported')
-      quittingnow
+      raise NotImplementedError()
   U = qc.to_gate()
   U.name = "U^"+str(power)
   return U.control()
@@ -180,6 +181,7 @@ def gcd(a,b):
 
 def shors(N,gcds=False,factors=False,cheat=False):
   if cheat:
+    raise DeprecationWarning("Obsolete!!!")
     provider = IBMQ.load_account()
     provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main')
     backend = provider.get_backend('stabilizer_simulator')

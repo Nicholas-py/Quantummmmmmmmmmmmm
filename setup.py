@@ -1,15 +1,14 @@
-from qiskit import exceptions
-from qiskit import Aer,transpile, assemble
+from qiskit import exceptions, transpile, assemble
+from qiskit_aer import AerSimulator
 from qiskit.visualization import plot_histogram
-aer_sim = Aer.get_backend('aer_simulator')
+aer_sim = AerSimulator(method='density_matrix')
 from qiskit.quantum_info import Statevector
 from math import log
 import matplotlib.pyplot as plt
-from qiskit import IBMQ
 from qiskit.primitives import Sampler
 from qiskit_ibm_runtime import QiskitRuntimeService
-service = QiskitRuntimeService(channel="ibm_quantum", token='109fa751322d2b7a0c01ab06f499c827aac6c321f8b0f8d4088175d2a52e4e2d5fbbbfe0e80f44686dc440dfdcd254c2b77faf6a66f424c2d352f7451fc05f57')
-IBMQ.save_account("109fa751322d2b7a0c01ab06f499c827aac6c321f8b0f8d4088175d2a52e4e2d5fbbbfe0e80f44686dc440dfdcd254c2b77faf6a66f424c2d352f7451fc05f57", overwrite=True) 
+#service = QiskitRuntimeService(channel="ibm_quantum", token='109fa751322d2b7a0c01ab06f499c827aac6c321f8b0f8d4088175d2a52e4e2d5fbbbfe0e80f44686dc440dfdcd254c2b77faf6a66f424c2d352f7451fc05f57')
+#IBMQ.save_account("109fa751322d2b7a0c01ab06f499c827aac6c321f8b0f8d4088175d2a52e4e2d5fbbbfe0e80f44686dc440dfdcd254c2b77faf6a66f424c2d352f7451fc05f57", overwrite=True) 
 
 #visualization functions
 def draw(qc,pause=False):
